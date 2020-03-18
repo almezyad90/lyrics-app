@@ -8,7 +8,6 @@ class TracksContainer extends Component {
     return (
       <Consumer>
         {value => {
-          console.log('Track Container', value);
           const { track_list, heading } = value;
           /* console.log(value); */
           if (track_list === undefined || track_list.length === 0) {

@@ -29,7 +29,6 @@ export class Provider extends Component {
 }
 
 const reducer = (state, action) => {
-  console.log('Reducer runs with action', action.payload);
   switch (action.type) {
     case 'SEARCH_TRACKS':
       return {
