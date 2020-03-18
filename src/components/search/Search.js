@@ -1,42 +1,45 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { Consumer } from "../contaxt/Contaxt";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Consumer } from '../contaxt/Contaxt';
 
 class Search extends Component {
   state = {
-    trackTitle: ""
+    trackTitle: ''
   };
-  findTrack = (dispatch,e) => {
+
+  findTrack = (dispatch, e) => {
     e.preventDefault();
-    
     axios
-    .get(
-      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${this.state.trackTitel}&page_size=10&page=1&s_track_rating=desc&apikey=${process.env.REACT_APP_MM_KEY}`
-    )
+      .get(
+        // You had a typo here ${this.state.trackTitel}
+        `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track=${this.state.trackTitle}&page_size=30&page=1&s_track_rating=desc&apikey=${process.env.REACT_APP_MM_KEY}`
+      )
 
-    .then(res => {
-      dispatch({
-        type: 'SEARCH-TRACKS',
-        payload: res.data.message.body.track_list
-         
-      });
-      this.setState({ trackTitel: ''});
+      .then(res => {
+        console.log('Search data are back', res.data.message.body.track_list);
+        dispatch({
+          // Here you called it search-tracks but your reducer looks for search_tracks
+          type: 'SEARCH_TRACKS',
+          payload: res.data.message.body.track_list
+        });
 
-      /* console.log(res.data); */
-   
-    })
-    .catch(err => console.log(err));
-  }
+        this.setState({ trackTitel: '' });
+
+        /* console.log(res.data); */
+      })
+      .catch(err => console.log(err));
+  };
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   render() {
     return (
       <Consumer>
         {value => {
           const { dispatch } = value;
-           return (
+          return (
             <div className="card card-body mb-4 p-4">
               <h1 className="display-4 text-center">
                 <i className="fas fa-music"></i> Search For A Song
@@ -53,7 +56,9 @@ class Search extends Component {
                     onChange={this.onChange}
                   ></input>
                 </div>
-               <button className="btn btn-info  btn-block " type="submit">Search</button>
+                <button className="btn btn-info  btn-block " type="submit">
+                  Search
+                </button>
               </form>
             </div>
           );

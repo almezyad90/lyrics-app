@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import { Consumer } from "../contaxt/Contaxt";
-import Spinner from "../spinner/Spinner";
-import Track from "../tracks/Track";
+import React, { Component } from 'react';
+import { Consumer } from '../contaxt/Contaxt';
+import Spinner from '../spinner/Spinner';
+import Track from '../tracks/Track';
 
 class TracksContainer extends Component {
   render() {
     return (
       <Consumer>
         {value => {
+          console.log('Track Container', value);
           const { track_list, heading } = value;
           /* console.log(value); */
           if (track_list === undefined || track_list.length === 0) {
